@@ -43,6 +43,23 @@ public class Run {
 		return beker;
 	}
 
+	public static int readIntVat() {
+		int beker = 0;
+		do {
+			if (beker < 0 || beker > 27) {
+				System.out.println("Vat input is out of range(1-27)");
+			}
+			while (!input.hasNextInt()) {
+				System.out.println("Wrong input!");
+				input.next();
+			}
+			beker = input.nextInt();
+		} while (beker <= 0 || beker > 27);
+
+		input.nextLine();
+		return beker;
+	}
+
 	public static String readString() {
 		String beker = input.nextLine();
 		return beker;
@@ -81,8 +98,8 @@ public class Run {
 			} else {
 				System.out.println("Please give the " + (i + 1) + " price!");
 				int price = readInt();
-				System.out.println("Please give the " + (i + 1) + " vat!");
-				int vat = readInt();
+				System.out.println("Please give the " + (i + 1) + " vat! between 1 and 27");
+				int vat = readIntVat();
 				System.out.println("Please give the " + (i + 1) + " unit!");
 				double unit = readDouble();
 				System.out.println("Please give the " + (i + 1) + " BreadName!");
@@ -105,16 +122,24 @@ public class Run {
 			}
 		}
 
-		System.out.println("Authors with grater than 20/page unit price:");
+		System.out.println("Authors with grater than 20Ft/page unit price:");
 		String[] authors = new String[books.length];
 		int wealthyAuthor = 0;
 		for (int i = 0; i < books.length; i++) {
-			boolean contain = containe(books[i], authors);
-			if (!contain && books[i].getUnitPrice() > 20) {
-				System.out.println(books[i].getAuthor());
-				authors[wealthyAuthor] = books[i].getAuthor();
-				wealthyAuthor++;
+			if (books[i] != null) {
+				boolean contain = containe(books[i], authors);
+				if (!contain && books[i].getUnitPrice() > 20) {
+					System.out.println(books[i].getAuthor());
+					authors[wealthyAuthor] = books[i].getAuthor();
+					wealthyAuthor++;
+				}
+			} else {
+				break;
 			}
+
+		}
+		if (wealthyAuthor == 0) {
+			System.out.println("There were no authors that has books that cost 20Ft/page!");
 		}
 	}
 
